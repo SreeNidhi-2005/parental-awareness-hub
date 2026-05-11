@@ -1,0 +1,121 @@
+type WorkshopId = nat;
+type Workshop = 
+ record {
+   dateTime: Timestamp;
+   description: text;
+   facilitator: text;
+   id: WorkshopId;
+   maxCapacity: nat;
+   registeredCount: nat;
+   title: text;
+ };
+type UserProfile = 
+ record {
+   bio: text;
+   childrenAges: vec nat;
+   id: UserId;
+   joinedAt: Timestamp;
+   name: text;
+ };
+type UserId = principal;
+type Timestamp = int;
+type Testimonial = 
+ record {
+   content: text;
+   id: FeedbackId;
+   parentName: text;
+   submittedAt: Timestamp;
+ };
+type ResourceId = nat;
+type ResourceCategory = 
+ variant {
+   emergencySupport;
+   expertGuidance;
+   parentingTips;
+   wellnessArticles;
+ };
+type Resource = 
+ record {
+   category: ResourceCategory;
+   description: text;
+   id: ResourceId;
+   link: text;
+   title: text;
+ };
+type ProgressStatus = 
+ variant {
+   completed;
+   inProgress;
+   notStarted;
+ };
+type ModuleProgress = 
+ record {
+   bookmarked: bool;
+   moduleId: ModuleId;
+   status: ProgressStatus;
+ };
+type ModuleId = nat;
+type LearningModule = 
+ record {
+   article: text;
+   category: text;
+   description: text;
+   icon: text;
+   id: ModuleId;
+   tips: vec text;
+   title: text;
+ };
+type FeedbackId = nat;
+type Feedback = 
+ record {
+   email: text;
+   id: FeedbackId;
+   message: text;
+   parentName: text;
+   rating: nat;
+   submittedAt: Timestamp;
+ };
+type ChatRole = 
+ variant {
+   assistant;
+   user;
+ };
+type ChatResponse = 
+ record {
+   reply: text;
+   timestamp: Timestamp;
+ };
+type ChatRequest = record {messages: vec ChatMessage;};
+type ChatMessage = 
+ record {
+   content: text;
+   role: ChatRole;
+ };
+service : {
+  chat: (request: ChatRequest) -> (ChatResponse);
+  getDailyTip: () -> (text) query;
+  getModule: (id: ModuleId) -> (opt LearningModule) query;
+  getMyBookmarks: () -> (vec Resource);
+  getMyProfile: () -> (opt UserProfile);
+  getMyProgress: () -> (vec ModuleProgress);
+  getMyWorkshops: () -> (vec Workshop);
+  getWorkshop: (id: WorkshopId) -> (opt Workshop) query;
+  isRegisteredForWorkshop: (workshopId: WorkshopId) -> (bool);
+  listFeedbacks: () -> (vec Feedback) query;
+  listModules: () -> (vec LearningModule) query;
+  listResources: () -> (vec Resource) query;
+  listResourcesByCategory: (category: ResourceCategory) ->
+   (vec Resource) query;
+  listTestimonials: () -> (vec Testimonial) query;
+  listWorkshops: () -> (vec Workshop) query;
+  registerForWorkshop: (workshopId: WorkshopId) -> (bool);
+  removeBookmark: (resourceId: ResourceId) -> ();
+  saveBookmark: (resourceId: ResourceId) -> ();
+  submitFeedback: (parentName: text, email: text, rating: nat, message:
+   text) -> (Feedback);
+  submitTestimonial: (parentName: text, content: text) -> (Testimonial);
+  updateProgress: (moduleId: ModuleId, status: ProgressStatus, bookmark:
+   bool) -> ();
+  upsertMyProfile: (name: text, bio: text, childrenAges: vec nat) ->
+   (UserProfile);
+}

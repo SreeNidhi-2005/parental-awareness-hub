@@ -1,0 +1,181 @@
+// Version: 1.0.0
+type BookmarkedResource__849006387 =
+  {
+    resourceId : ResourceId__680185572;
+    savedAt : Timestamp__301639476;
+    userId : UserId__158757552
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type FeedbackId__967423284 = Nat;
+type Feedback__34322984 =
+  {
+    email : Text;
+    id : FeedbackId__967423284;
+    message : Text;
+    parentName : Text;
+    rating : Nat;
+    submittedAt : Timestamp__301639476
+  };
+type HttpHeader__778168237 = {name : Text; value : Text};
+type HttpMethod__916241987 = {#get; #head; #post};
+type HttpRequest__162035088 =
+  {
+    body : ?Blob;
+    headers : [HttpHeader__778168237];
+    max_response_bytes : ?Nat64;
+    method : HttpMethod__916241987;
+    transform :
+      ?{
+         context : Blob;
+         function :
+           shared query {context : Blob; response : HttpResponse__435264912} ->
+             async HttpResponse__435264912
+       };
+    url : Text
+  };
+type HttpResponse__435264912 =
+  {body : Blob; headers : [HttpHeader__778168237]; status : Nat};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type LearningModule__790201117 =
+  {
+    article : Text;
+    category : Text;
+    description : Text;
+    icon : Text;
+    id : ModuleId__898030192;
+    tips : [Text];
+    title : Text
+  };
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type ModuleId__898030192 = Nat;
+type ModuleProgress__214544337 =
+  {
+    bookmarked : Bool;
+    moduleId : ModuleId__898030192;
+    status : ProgressStatus__290625290
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type ProgressStatus__290625290 = {#completed; #inProgress; #notStarted};
+type Registration__866402176 =
+  {
+    registeredAt : Timestamp__301639476;
+    userId : UserId__158757552;
+    workshopId : WorkshopId__977784898
+  };
+type ResourceCategory__581123986 =
+  {#emergencySupport; #expertGuidance; #parentingTips; #wellnessArticles};
+type ResourceId__680185572 = Nat;
+type Resource__736884683 =
+  {
+    category : ResourceCategory__581123986;
+    description : Text;
+    id : ResourceId__680185572;
+    link : Text;
+    title : Text
+  };
+type Testimonial__380356945 =
+  {
+    content : Text;
+    id : FeedbackId__967423284;
+    parentName : Text;
+    submittedAt : Timestamp__301639476
+  };
+type Timestamp__301639476 = Int;
+type UserId__158757552 = Principal;
+type UserProfile__277265826 =
+  {
+    bio : Text;
+    childrenAges : [Nat];
+    id : UserId__158757552;
+    joinedAt : Timestamp__301639476;
+    name : Text
+  };
+type WorkshopId__977784898 = Nat;
+type Workshop__919947625 =
+  {
+    dateTime : Timestamp__301639476;
+    description : Text;
+    facilitator : Text;
+    id : WorkshopId__977784898;
+    maxCapacity : Nat;
+    registeredCount : Nat;
+    title : Text
+  };
+actor {
+  stable SYSTEM_PROMPT : Text;
+  stable bookmarks :
+    {
+      var root :
+        Node__46230540<UserId__158757552,
+                        List__415060402<BookmarkedResource__849006387>>;
+      var size : Nat__490723111
+    };
+  stable fbCounter : {var nextId : Nat};
+  stable feedbacks :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Feedback__34322984]];
+      var elementIndex : Nat__490723111
+    };
+  stable ic :
+    actor {
+      http_request :
+        shared HttpRequest__162035088 -> async HttpResponse__435264912
+    };
+  stable modCounter : {var nextId : Nat};
+  stable modules :
+    {
+      var root :
+        Node__46230540<ModuleId__898030192, LearningModule__790201117>;
+      var size : Nat__490723111
+    };
+  stable profiles :
+    {
+      var root : Node__46230540<UserId__158757552, UserProfile__277265826>;
+      var size : Nat__490723111
+    };
+  stable progress :
+    {
+      var root :
+        Node__46230540<UserId__158757552,
+                        List__415060402<ModuleProgress__214544337>>;
+      var size : Nat__490723111
+    };
+  stable registrations :
+    {
+      var root :
+        Node__46230540<WorkshopId__977784898,
+                        List__415060402<Registration__866402176>>;
+      var size : Nat__490723111
+    };
+  stable resCounter : {var nextId : Nat};
+  stable resources :
+    {
+      var root : Node__46230540<ResourceId__680185572, Resource__736884683>;
+      var size : Nat__490723111
+    };
+  stable testimonials :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Testimonial__380356945]];
+      var elementIndex : Nat__490723111
+    };
+  stable workshops :
+    {
+      var root : Node__46230540<WorkshopId__977784898, Workshop__919947625>;
+      var size : Nat__490723111
+    };
+  stable wsCounter : {var nextId : Nat}
+};

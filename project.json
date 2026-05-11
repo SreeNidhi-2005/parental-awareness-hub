@@ -1,0 +1,25 @@
+{
+  "overview": "Parental Awareness Hub is a social awareness platform helping parents understand children's emotional well-being, mental health struggles, and healthy communication approaches. It features learning modules, AI-powered parenting guidance, community workshops, and a parent profile dashboard.",
+  "features": [
+    "6 interactive awareness learning modules on child emotional health",
+    "Floating AI chatbot for real-time parenting guidance",
+    "Community workshop discovery and registration",
+    "Parent profile dashboard with learning progress tracking",
+    "Mental health awareness and parent-child relationship guidance",
+    "Resources library with bookmarking",
+    "Feedback and testimonials section",
+    "Dark/light mode toggle",
+    "Parent authentication with profile management"
+  ],
+  "category": "education-wellness",
+  "tags": [
+    "parenting",
+    "mental-health",
+    "awareness",
+    "education",
+    "family",
+    "wellness",
+    "community"
+  ],
+  "last_updated": "2026-05-08T08:30:42.816Z"
+}
